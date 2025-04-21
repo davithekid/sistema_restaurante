@@ -1,11 +1,23 @@
-import express from 'express';
-const app = express();
-const port = 3000;
+import express, {Application } from 'express';
+import routes from './routes';
 
-app.get('/', (req, res) => {
-    res.status(200).send('Página Inicial');
-})
+class App {
+    public app: Application;
 
-app.listen(port , () => {
-    console.log(`Servidor sendo executado em: http://localhost:${port}`)
-})
+constructor(){
+    this.app = express();
+    this.middlewares();
+    this.routes();
+}
+
+    private middlewares(): void {
+        this.app.use(express.json()); // para aceitar JSON
+    }
+
+    private routes(): void {
+        this.app.use('/', routes);
+    }
+
+}
+
+export default new App().app;
