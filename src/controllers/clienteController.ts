@@ -50,11 +50,11 @@ export const clienteController = {
                 `id_cliente = ${Number(id)}`
             );
 
-            if (cliente) {
-                res.json({ id, nome });
-            } else {
-                res.status(404).send('Cliente não encontrado para atualizar');
+            if (!cliente) {
+                return res.status(404).send('Cliente não encontrado');
             }
+            return res.json({ id, nome });
+
         } catch (err) {
             console.error('Erro ao atualizar cliente:', err);
             res.status(500).send('Erro interno ao atualizar cliente.');
@@ -69,11 +69,12 @@ export const clienteController = {
                 `id_cliente = ${Number(id)}`
             );
 
-            if (cliente) {
-                res.json({ id });
-            } else {
-                res.status(404).send('Cliente não encontrado para atualizar');
+            if (!cliente) {
+                return res.status(404).send('Cliente não encontrado');
             }
+
+            return res.json({ id});
+
         } catch (err) {
             console.error('Erro ao atualizar cliente:', err);
             res.status(500).send('Erro interno ao atualizar cliente.');

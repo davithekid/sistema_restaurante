@@ -1,6 +1,8 @@
 import express, {Application } from 'express';
 import routes from './routes';
 import clienteRoute from './routes/clientesRoutes'
+import mesaRoute from './routes/mesaRoutes'
+import reservaRoutes from './routes/reservaRoute'
 
 class App {
     public app: Application;
@@ -18,6 +20,8 @@ constructor(){
     private routes(): void {
         this.app.use('/', routes);
         this.app.use('/clientes', clienteRoute);
+        this.app.use('/mesas', mesaRoute );
+        this.app.use('/reservas', reservaRoutes );
 
     }
 
