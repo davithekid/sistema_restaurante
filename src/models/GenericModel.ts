@@ -55,7 +55,7 @@ export class ReadModel {
 // função para inserir dados
 export class CreateModel {
 
-    async create(table: string, data: Record<string, any>) {
+   static async create(table: string, data: Record<string, any>) {
         const connection = await getConnection();
         try {
             const columns = Object.keys(data).join(', ');
