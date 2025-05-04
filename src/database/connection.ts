@@ -10,6 +10,4 @@ const pool = mysql.createPool({
     queueLimit: 0
 })
 
-export async function getConnection() {
-    return pool.getConnection();
-}
+export default pool;

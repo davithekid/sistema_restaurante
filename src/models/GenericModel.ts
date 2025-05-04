@@ -1,4 +1,4 @@
-import { getConnection } from "../database/connection";
+import pool from '../database/connection'; // Importando o pool
 import { ResultSetHeader } from 'mysql2/promise';
 
 export interface Cliente {
@@ -6,10 +6,10 @@ export interface Cliente {
     nome_cliente: string;
 }
 
-// criando um "padrão" de CRUD 
+// criando um "padrão" de CRUD
 export class ReadAllModel {
     static async getAll(table: string, where?: string) {
-        const connection = await getConnection();
+        const connection = await pool.getConnection(); 
         try {
             let sql = `SELECT * FROM ${table}`;
             if (where) {
@@ -22,14 +22,15 @@ export class ReadAllModel {
             console.error(`Erro ao buscar registros em ${table}: `, err);
             throw err;
         } finally {
-            connection.release();
+            connection.release(); 
         }
     }
 }
+
 // função para ler um registro específico
 export class ReadModel {
     static async read(table: string, where?: string) {
-        const connection = await getConnection();
+        const connection = await pool.getConnection(); 
         try {
             let sql = `SELECT * FROM ${table}`;
             if (where) {
@@ -47,7 +48,7 @@ export class ReadModel {
             console.error('Erro ao ler clientes: ', err)
             throw err;
         } finally {
-            connection.release();
+            connection.release(); 
         }
     }
 }
@@ -56,7 +57,7 @@ export class ReadModel {
 export class CreateModel {
 
    static async create(table: string, data: Record<string, any>) {
-        const connection = await getConnection();
+        const connection = await pool.getConnection(); 
         try {
             const columns = Object.keys(data).join(', ');
             const placeholders = Array(Object.keys(data).length).fill('?').join(', ');
@@ -71,14 +72,14 @@ export class CreateModel {
             console.error('Erro ao inserir registros: ', err);
             throw err;
         } finally {
-            connection.release();
+            connection.release(); 
         }
     }
 }
 
 export class UpdateModel {
     static async update(table: string, data: Record<string, any>, where?: string) {
-        const connection = await getConnection();
+        const connection = await pool.getConnection(); 
         try {
             const set = Object.keys(data).map(column => `${column} = ?`).join(', ');
 
@@ -92,7 +93,7 @@ export class UpdateModel {
             console.error('Erro ao atualizar registros: ', err)
             throw err;
         } finally {
-            connection.release();
+            connection.release(); 
         }
     }
 }
@@ -100,7 +101,7 @@ export class UpdateModel {
 // função para deletar um registro
 export class DeleteModel {
    static  async deleteRecord(table:string, where?:string) {
-        const connection = await getConnection();
+        const connection = await pool.getConnection(); 
         try {
             const sql = `DELETE FROM ${table} WHERE ${where}`;
             const [result] = await connection.execute<ResultSetHeader>(sql);
@@ -109,13 +110,7 @@ export class DeleteModel {
             console.error('Erro ao deletar registros: ', err)
             throw err;
         } finally {
-            connection.release();
+            connection.release(); 
         }
     }
 }
-
-
-
-
-
-
